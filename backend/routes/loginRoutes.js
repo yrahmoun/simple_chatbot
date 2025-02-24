@@ -34,7 +34,7 @@ router.post("/register", async (req, res) => {
     res.cookie("accessToken", token, {
       httpOnly: true,
       secure: process.env.DEPLOYED === "true",
-      sameSite: "none",
+      sameSite: process.env.DEPLOYED === "true" ? "none" : "lax",
       maxAge: 1000 * 60 * 60 * 24,
     });
     return res
@@ -68,7 +68,7 @@ router.post("/login", async (req, res) => {
     res.cookie("accessToken", token, {
       httpOnly: true,
       secure: process.env.DEPLOYED === "true",
-      sameSite: "none",
+      sameSite: process.env.DEPLOYED === "true" ? "none" : "lax",
       maxAge: 1000 * 60 * 60 * 24,
     });
     return res
@@ -77,6 +77,25 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Server error. Failed to log in." });
+  }
+});
+
+router.get("/verify", async (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) {
+    return res.status(401).json({ error: "Unauthorized access." });
+  }
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  const userId = decodedToken.id;
+  const user = await Users.findById(userId);
+  if (!user) {
+    res.cookie("accessToken", "", {
+        httpOnly: true,
+        secure: process.env.DEPLOYED === true,
+        sameSite: process.env.DEPLOYED === true ? "none" : "lax",
+        expires: new Date(0),
+    });
+    return res.status(401).json({ error: "Unauthorized access." });
   }
 });
 
