@@ -37,7 +37,9 @@ router.post("/register", async (req, res) => {
       sameSite: "none",
       maxAge: 1000 * 60 * 60 * 24,
     });
-    return res.status(201).json({ message: "new user registered" });
+    return res
+      .status(201)
+      .json({ message: "new user registered", username: user.username });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "server error. Couldn't register user" });
@@ -69,7 +71,9 @@ router.post("/login", async (req, res) => {
       sameSite: "none",
       maxAge: 1000 * 60 * 60 * 24,
     });
-    return res.status(200).json({ message: "User logged in" });
+    return res
+      .status(200)
+      .json({ message: "User logged in", username: foundUser.username });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Server error. Failed to log in." });

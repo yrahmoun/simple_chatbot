@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const backend_url = import.meta.env.VITE_BACKEND_URL;
+  const navigate = useNavigate();
 
   const submitHandler = async () => {
     if (!username || !password) {
-      setErrorMessage("please fill all the fields.");
+      setErrorMessage("Please fill all the fields.");
       return;
     }
     try {
@@ -20,8 +22,15 @@ function Login() {
         credentials: "include",
         body: JSON.stringify({ username, password }),
       });
+      const data = await response.json();
+      if (data.error) {
+        setErrorMessage(data.error);
+        return;
+      }
+      localStorage.setItem("username", data.username);
+      navigate("/");
     } catch (error) {
-      console.error(error);
+      setErrorMessage("Failed to login. Please try again.");
     }
   };
 

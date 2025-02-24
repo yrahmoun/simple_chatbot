@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
   const backend_url = import.meta.env.VITE_BACKEND_URL;
 
   const submitHandler = async () => {
@@ -13,7 +15,7 @@ function Register() {
       return;
     }
     try {
-      await fetch(`${backend_url}/register`, {
+      const response = await fetch(`${backend_url}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,8 +23,15 @@ function Register() {
         credentials: "include",
         body: JSON.stringify({ username, email, password }),
       });
+      const data = await response.json();
+      if (data.error) {
+        setErrorMessage(data.error);
+        return;
+      }
+      localStorage.setItem("username", data.username);
+      navigate("/");
     } catch (error) {
-      console.error(error);
+      setErrorMessage("Failed to register. Please try again.");
     }
   };
 

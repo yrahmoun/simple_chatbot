@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import { useNavigate } from "react-router-dom";
 
 function LogInPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("username")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   return (
     <div className="page-conatiner">
       <div className="login-option">
