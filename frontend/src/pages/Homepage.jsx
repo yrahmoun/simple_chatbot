@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ChatbotInput from "../components/ChatbotInput";
 
 function Homepage() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ function Homepage() {
   return (
     <div>
       <p>welcome in {localStorage.getItem("username")}</p>
+      <ChatbotInput />
     </div>
   );
 }

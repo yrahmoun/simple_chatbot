@@ -3,8 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const loginRoutes = require("./routes/loginRoutes");
-const cookieParser = require("cookie-parser")
-
+const cookieParser = require("cookie-parser");
+const chatBotRoutes = require("./routes/chatBotRoutes");
 const app = express();
 
 app.use(express.json());
@@ -32,3 +32,4 @@ app.listen(port, () => {
 });
 
 app.use(loginRoutes);
+app.use(chatBotRoutes);
