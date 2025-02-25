@@ -80,6 +80,16 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.get("/logout", async (req, res) => {
+  res.cookie("accessToken", "", {
+    httpOnly: true,
+    secure: process.env.DEPLOYED === "true",
+    sameSite: process.env.DEPLOYED === "true" ? "none" : "lax",
+    expires: new Date(0),
+  });
+  res.status(200).json({message: "Logged out successfully."});
+});
+
 router.get("/verify", async (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) {
@@ -90,10 +100,10 @@ router.get("/verify", async (req, res) => {
   const user = await Users.findById(userId);
   if (!user) {
     res.cookie("accessToken", "", {
-        httpOnly: true,
-        secure: process.env.DEPLOYED === "true",
-        sameSite: process.env.DEPLOYED === "true" ? "none" : "lax",
-        expires: new Date(0),
+      httpOnly: true,
+      secure: process.env.DEPLOYED === "true",
+      sameSite: process.env.DEPLOYED === "true" ? "none" : "lax",
+      expires: new Date(0),
     });
     return res.status(401).json({ error: "Unauthorized access." });
   }
