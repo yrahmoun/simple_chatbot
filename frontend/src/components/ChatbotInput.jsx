@@ -23,11 +23,12 @@ function ChatbotInput() {
       setReply(data.reply);
     } catch (error) {
       console.error(error);
+      setReply("Errors getting a response. Please try again.")
     }
   };
 
   return (
-    <div className="promp-container">
+    <div className="prompt-container">
       <input
         type="text"
         value={prompt}
