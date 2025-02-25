@@ -87,7 +87,7 @@ router.get("/logout", async (req, res) => {
     sameSite: process.env.DEPLOYED === "true" ? "none" : "lax",
     expires: new Date(0),
   });
-  res.status(200).json({message: "Logged out successfully."});
+  res.status(200).json({ message: "Logged out successfully." });
 });
 
 router.get("/verify", async (req, res) => {
@@ -95,16 +95,21 @@ router.get("/verify", async (req, res) => {
   if (!token) {
     return res.status(401).json({ error: "Unauthorized access." });
   }
-  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-  const userId = decodedToken.id;
-  const user = await Users.findById(userId);
-  if (!user) {
-    res.cookie("accessToken", "", {
-      httpOnly: true,
-      secure: process.env.DEPLOYED === "true",
-      sameSite: process.env.DEPLOYED === "true" ? "none" : "lax",
-      expires: new Date(0),
-    });
+  try {
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodedToken.id;
+    const user = await Users.findById(userId);
+    if (!user) {
+      res.cookie("accessToken", "", {
+        httpOnly: true,
+        secure: process.env.DEPLOYED === "true",
+        sameSite: process.env.DEPLOYED === "true" ? "none" : "lax",
+        expires: new Date(0),
+      });
+      return res.status(401).json({ error: "Unauthorized access." });
+    }
+  } catch (error) {
+    console.error(error);
     return res.status(401).json({ error: "Unauthorized access." });
   }
 });
