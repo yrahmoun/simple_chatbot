@@ -91,8 +91,8 @@ router.get("/verify", async (req, res) => {
   if (!user) {
     res.cookie("accessToken", "", {
         httpOnly: true,
-        secure: process.env.DEPLOYED === true,
-        sameSite: process.env.DEPLOYED === true ? "none" : "lax",
+        secure: process.env.DEPLOYED === "true",
+        sameSite: process.env.DEPLOYED === "true" ? "none" : "lax",
         expires: new Date(0),
     });
     return res.status(401).json({ error: "Unauthorized access." });
