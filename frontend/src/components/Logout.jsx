@@ -20,9 +20,9 @@ function Logout() {
   };
 
   return (
-    <>
-      <button onClick={logout}>Logout</button>
-    </>
+    <div className="logout">
+      <h2 onClick={logout}>Logout</h2>
+    </div>
   );
 }
 

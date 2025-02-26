@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChatbotInput from "../components/ChatbotInput";
-import Logout from "../components/Logout";
+import Navbar from "../components/Navbar";
 
 function Homepage() {
   const navigate = useNavigate();
@@ -26,11 +26,10 @@ function Homepage() {
   }
 
   return (
-    <div>
-      <Logout />
-      <p>welcome in {localStorage.getItem("username")}</p>
+    <>
+      <Navbar />
       <ChatbotInput />
-    </div>
+    </>
   );
 }
 

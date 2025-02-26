@@ -4,6 +4,20 @@ const getResponse = require("../controllers/chatBotReply");
 const verifyToken = require("../middleware/authMiddleware");
 const Messages = require("../models/messagesModel");
 
+router.get("/fetch-messages", verifyToken, async (req, res) => {
+  const userId = req.userId;
+  try {
+    const chat = await Messages.findOne({ userId });
+    if(!chat) {
+      return res.status(200).json([]);
+    }
+    return res.status(200).json(chat.messages);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "error fetching chat" });
+  }
+});
+
 router.post("/chatbot-reply", verifyToken, async (req, res) => {
   const prompt = req.body.prompt;
   if (!prompt) {

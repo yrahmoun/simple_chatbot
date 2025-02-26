@@ -1,16 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "../css/ChatbotInput.css";
 
 function ChatbotInput() {
   const [prompt, setPrompt] = useState("");
-  const [reply, setReply] = useState("");
+  const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
   const backend_url = import.meta.env.VITE_BACKEND_URL;
 
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const response = await fetch(`${backend_url}/fetch-messages`, {
+        method: "GEt",
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (data.unauthorized) {
+        localStorage.removeItem("username");
+        navigate("/Login");
+        console.error(data.error);
+        return;
+      }
+      setMessages(data);
+    };
+    fetchMessages();
+  }, []);
+
   const getResponse = async () => {
-    if (!prompt) {
+    if (!prompt.trim()) {
       return;
     }
+    let userMessage = {
+      role: "user",
+      content: prompt,
+    };
+    setMessages((prev) => [...prev, userMessage]);
     try {
       const response = await fetch(`${backend_url}/chatbot-reply`, {
         method: "POST",
@@ -28,24 +52,42 @@ function ChatbotInput() {
         return;
       }
       setPrompt("");
-      setReply(data.reply);
+      let botMessage = {
+        role: "assistant",
+        content: data.reply,
+      };
+      setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       console.error(error);
-      setReply("Errors getting a response. Please try again.");
     }
   };
 
   return (
-    <div className="prompt-container">
-      <input
-        type="text"
-        value={prompt}
-        onChange={(e) => {
-          setPrompt(e.target.value);
-        }}
-      ></input>
-      <button onClick={getResponse}>send</button>
-      {reply && <p>{reply}</p>}
+    <div className="page-container">
+      <div className="prompt-container">
+        <div className="chat-box">
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={msg.role === "user" ? "user-message" : "bot-message"}
+            >
+              <p>{msg.content}</p>
+            </div>
+          ))}
+        </div>
+        <div className="user-input">
+          <textarea
+            className="input-field"
+            type="text"
+            value={prompt}
+            onChange={(e) => {
+              setPrompt(e.target.value);
+            }}
+            placeholder="Type your message here..."
+          />
+          <button onClick={getResponse}>send</button>
+        </div>
+      </div>
     </div>
   );
 }

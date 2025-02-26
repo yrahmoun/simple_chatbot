@@ -1,6 +1,6 @@
 .navbar {
     width: 100%;
-    height: 13%;
+    height: 12%;
     background-color: #3747f3;
     color: #FFFFFF;
     display: flex;
@@ -21,4 +21,15 @@
 
 .title img {
     align-self: center;
+}
+
+.logout {
+    margin-right: 15px;
+    font-size: 16px;
+    transition: font-size 0.3s ease;
+}
+
+.logout:hover {
+    cursor: pointer;
+    font-size: 18px;
 }
