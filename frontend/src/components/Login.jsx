@@ -36,7 +36,7 @@ function Login() {
 
   return (
     <div className="login-form">
-      {errorMessage && <p>{errorMessage}</p>}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <label>Username:</label>
       <input
         type="text"

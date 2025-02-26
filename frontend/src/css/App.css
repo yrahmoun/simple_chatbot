@@ -11,6 +11,10 @@ html, body, #root{
 }
 
 body {
-  /*background-color: #E0E7E0;*/
   background-color: #f9f7f3;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
 }

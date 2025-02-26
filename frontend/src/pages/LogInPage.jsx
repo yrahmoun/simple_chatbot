@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import "../css/LoginPage.css";
 
 function LogInPage() {
@@ -15,27 +16,30 @@ function LogInPage() {
   }, [navigate]);
 
   return (
-    <div className="page-container">
-      <div className="login-box">
-        <div className="login-option">
-          <h1
-            onClick={() => {
-              setIsLogin(true);
-            }}
-          >
-            Login
-          </h1>
-          <h1
-            onClick={() => {
-              setIsLogin(false);
-            }}
-          >
-            Register
-          </h1>
+    <>
+      <Navbar />
+      <div className="page-container">
+        <div className="login-box">
+          <div className="login-option">
+            <h1
+              onClick={() => {
+                setIsLogin(true);
+              }}
+            >
+              Login
+            </h1>
+            <h1
+              onClick={() => {
+                setIsLogin(false);
+              }}
+            >
+              Register
+            </h1>
+          </div>
+          {isLogin ? <Login /> : <Register />}
         </div>
-        {isLogin ? <Login /> : <Register />}
       </div>
-    </div>
+    </>
   );
 }
 
