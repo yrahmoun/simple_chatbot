@@ -3,12 +3,14 @@ import { handleUnauthorized } from "../utilities/handleUnauthorized";
 import { useNavigate } from "react-router-dom";
 import { useBotContext } from "../context/BotContext";
 import "../css/Sidebar.css";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 
 function Sidebar() {
   const backend_url = import.meta.env.VITE_BACKEND_URL;
   const { botModel, setBotModel } = useBotContext();
   const [allModels, setAllModels] = useState([]);
   const [showModels, setShowModels] = useState(false);
+  const [showSideBar, setShowSideBar] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,36 +27,52 @@ function Sidebar() {
   }, []);
 
   return (
-    <div className="sidebar">
-      <div className="model-choice">
-        <p>Current model:</p>
-        <h3
-          onClick={() => {
-            setShowModels(!showModels);
-          }}
-        >
-          {botModel}
-        </h3>
-        {showModels && (
-          <div className="model-list">
-            <ul>
-              {allModels.map((model) => (
-                <li
-                  className="model-list-item"
-                  onClick={() => {
-                    setBotModel(model.id);
-                    setShowModels(false);
-                  }}
-                >
-                  <p>{model.id}</p>
-                  <p>{model.owned_by}</p>
-                </li>
-              ))}
-            </ul>
+    <>
+      {showSideBar && (
+        <div className="sidebar">
+          <div className="model-choice">
+            <p>Current model:</p>
+            <h3
+              onClick={() => {
+                setShowModels(!showModels);
+              }}
+            >
+              {botModel}
+            </h3>
+            {showModels && (
+              <div className="model-list">
+                <ul>
+                  {allModels.map((model) => (
+                    <li
+                      className="model-list-item"
+                      onClick={() => {
+                        setBotModel(model.id);
+                        setShowModels(false);
+                      }}
+                    >
+                      <p>{model.id}</p>
+                      <p>{model.owned_by}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
+        </div>
+      )}
+      <div
+        className="menu-button"
+        onClick={() => {
+          setShowSideBar(!showSideBar);
+        }}
+      >
+        {showSideBar ? (
+          <ChevronLeft size={45} color="#fff" />
+        ) : (
+          <ChevronRight size={45} color="#fff" />
         )}
       </div>
-    </div>
+    </>
   );
 }
 
