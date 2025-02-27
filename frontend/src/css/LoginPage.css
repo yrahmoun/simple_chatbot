@@ -91,3 +91,27 @@
     margin: 10px 5px;
     margin-top: 15px;
 }
+
+@media (max-width: 375px) {
+    .login-box {
+        min-width: 90%;
+    }
+    .login-option {
+        text-align: center;
+        height: 13%;
+    }
+    .login-option h1 {
+        font-size: 26px;
+    }
+    .login-option h1:last-child {
+        padding-right: 0px;
+        padding-left: 0px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 275px) {
+    .login-option h1 {
+        font-size: 20px;
+    }
+}
