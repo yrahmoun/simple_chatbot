@@ -13,8 +13,19 @@ async function getResponse(messages) {
     return response.choices[0].message.content;
   } catch (error) {
     console.error("Error fetching response:", error);
-    return {error: "failed toget a response"};
+    return { error: "failed toget a response" };
   }
 }
 
-module.exports = getResponse;
+async function getModels() {
+  try {
+    const response = await groq.models.list();
+    const models = response.data.map(({ id, owned_by }) => ({ id, owned_by }));
+    return models;
+  } catch (error) {
+    console.error("Error fetching models:", error);
+    return null;
+  }
+}
+
+module.exports = { getResponse, getModels };

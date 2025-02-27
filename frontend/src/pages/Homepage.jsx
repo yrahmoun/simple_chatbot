@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChatbotInput from "../components/ChatbotInput";
 import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
 function Homepage() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ function Homepage() {
   return (
     <>
       <Navbar />
+      <Sidebar />
       <ChatbotInput />
     </>
   );

@@ -1,14 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const getResponse = require("../controllers/chatBotReply");
+const { getResponse, getModels } = require("../controllers/chatBotReply");
 const verifyToken = require("../middleware/authMiddleware");
 const Messages = require("../models/messagesModel");
+
+router.get("/fetch-models", verifyToken, async (req, res) => {
+  const models = await getModels();
+  if (!models) {
+    return res.status(500).json({error: "failed to fetch bot models"});
+  }
+  return res.status(200).json(models);
+})
 
 router.get("/fetch-messages", verifyToken, async (req, res) => {
   const userId = req.userId;
   try {
     const chat = await Messages.findOne({ userId });
-    if(!chat) {
+    if (!chat) {
       return res.status(200).json([]);
     }
     return res.status(200).json(chat.messages);

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/ChatbotInput.css";
+import { handleUnauthorized } from "../utilities/handleUnauthorized";
 
 function ChatbotInput() {
   const [prompt, setPrompt] = useState("");
@@ -15,12 +16,7 @@ function ChatbotInput() {
         credentials: "include",
       });
       const data = await response.json();
-      if (data.unauthorized) {
-        localStorage.removeItem("username");
-        navigate("/Login");
-        console.error(data.error);
-        return;
-      }
+      if (handleUnauthorized(data, navigate)) return;
       setMessages(data);
     };
     fetchMessages();
@@ -45,12 +41,7 @@ function ChatbotInput() {
         body: JSON.stringify({ prompt }),
       });
       const data = await response.json();
-      if (data.unauthorized) {
-        localStorage.removeItem("username");
-        navigate("/Login");
-        console.error(data.error);
-        return;
-      }
+      if (handleUnauthorized(data, navigate)) return;
       setPrompt("");
       let botMessage = {
         role: "assistant",
