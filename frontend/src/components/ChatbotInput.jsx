@@ -1,13 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/ChatbotInput.css";
 import { handleUnauthorized } from "../utilities/handleUnauthorized";
+import { useBotContext } from "../context/BotContext";
 
 function ChatbotInput() {
   const [prompt, setPrompt] = useState("");
   const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
   const backend_url = import.meta.env.VITE_BACKEND_URL;
+  const chatBoxRef = useRef(null);
+  const { botModel } = useBotContext();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -21,6 +24,15 @@ function ChatbotInput() {
     };
     fetchMessages();
   }, []);
+
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTo({
+        top: chatBoxRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
 
   const getResponse = async () => {
     if (!prompt.trim()) {
@@ -38,7 +50,7 @@ function ChatbotInput() {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, botModel }),
       });
       const data = await response.json();
       if (handleUnauthorized(data, navigate)) return;
@@ -54,9 +66,9 @@ function ChatbotInput() {
   };
 
   return (
-    <div className="page-container">
+    <div className="chatPage-container">
       <div className="prompt-container">
-        <div className="chat-box">
+        <div className="chat-box" ref={chatBoxRef}>
           {messages.map((msg, index) => (
             <div
               key={index}

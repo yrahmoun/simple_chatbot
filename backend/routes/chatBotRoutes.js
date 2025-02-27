@@ -7,10 +7,10 @@ const Messages = require("../models/messagesModel");
 router.get("/fetch-models", verifyToken, async (req, res) => {
   const models = await getModels();
   if (!models) {
-    return res.status(500).json({error: "failed to fetch bot models"});
+    return res.status(500).json({ error: "failed to fetch bot models" });
   }
   return res.status(200).json(models);
-})
+});
 
 router.get("/fetch-messages", verifyToken, async (req, res) => {
   const userId = req.userId;
@@ -28,6 +28,7 @@ router.get("/fetch-messages", verifyToken, async (req, res) => {
 
 router.post("/chatbot-reply", verifyToken, async (req, res) => {
   const prompt = req.body.prompt;
+  const botModel = req.body.botModel;
   if (!prompt) {
     return res.status(400).json({ error: "please send a prompt." });
   }
@@ -48,7 +49,7 @@ router.post("/chatbot-reply", verifyToken, async (req, res) => {
     role,
     content,
   }));
-  const reply = await getResponse(filteredMessages);
+  const reply = await getResponse(filteredMessages, botModel);
   if (reply.error) {
     savedChat.messages.pop();
     await savedChat.save();

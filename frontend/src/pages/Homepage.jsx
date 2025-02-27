@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ChatbotInput from "../components/ChatbotInput";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import "../css/Homepage.css";
 
 function Homepage() {
   const navigate = useNavigate();
@@ -23,14 +24,16 @@ function Homepage() {
   }, [navigate]);
 
   if (!localStorage.getItem("username")) {
-    return <p>Loading...</p>
+    return <p>Loading...</p>;
   }
 
   return (
     <>
       <Navbar />
-      <Sidebar />
-      <ChatbotInput />
+      <div className="homepage">
+        <Sidebar />
+        <ChatbotInput />
+      </div>
     </>
   );
 }

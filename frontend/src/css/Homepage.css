@@ -1,0 +1,12 @@
+.homepage {
+    display: flex;
+    height: 87%;
+  }
+
+.chatPage-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

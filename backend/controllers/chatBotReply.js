@@ -4,11 +4,11 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
-async function getResponse(messages) {
+async function getResponse(messages, botModel) {
   try {
     const response = await groq.chat.completions.create({
       messages: messages,
-      model: "llama3-70b-8192",
+      model: botModel,
     });
     return response.choices[0].message.content;
   } catch (error) {
