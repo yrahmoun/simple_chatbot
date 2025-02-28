@@ -6,11 +6,10 @@ import { useBotContext } from "../context/BotContext";
 
 function ChatbotInput() {
   const [prompt, setPrompt] = useState("");
-  const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
   const backend_url = import.meta.env.VITE_BACKEND_URL;
   const chatBoxRef = useRef(null);
-  const { botModel } = useBotContext();
+  const { botModel, messages, setMessages } = useBotContext();
 
   useEffect(() => {
     const fetchMessages = async () => {

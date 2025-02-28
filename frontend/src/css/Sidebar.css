@@ -1,6 +1,6 @@
 .sidebar {
   background-color: hsl(0, 0%, 90%);
-  height: 87%;
+  height: 100%;
   width: 30%;
   min-width: 250px;
   max-width: 90%;
@@ -106,4 +106,21 @@
   justify-content: center;
   align-items: center;
   position: absolute
+}
+
+.clear-button{
+    margin-top: 20px;
+    width: 70%;
+    padding: 10px;
+    color: #fff;
+    background-color: #3747f3;
+    font-size: 18px;
+    font-weight: 300;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.clear-button:hover {
+    background-color: #5865f2;
 }

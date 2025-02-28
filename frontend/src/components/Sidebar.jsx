@@ -7,10 +7,10 @@ import { ChevronRight, ChevronLeft } from "lucide-react";
 
 function Sidebar() {
   const backend_url = import.meta.env.VITE_BACKEND_URL;
-  const { botModel, setBotModel } = useBotContext();
+  const { botModel, setBotModel, showClear, setShowClear } = useBotContext();
   const [allModels, setAllModels] = useState([]);
   const [showModels, setShowModels] = useState(false);
-  const [showSideBar, setShowSideBar] = useState(true);
+  const [showSideBar, setShowSideBar] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -58,6 +58,14 @@ function Sidebar() {
               </div>
             )}
           </div>
+          <button
+            className="clear-button"
+            onClick={() => {
+              if (!showClear) setShowClear(true);
+            }}
+          >
+            Clear history
+          </button>
         </div>
       )}
       <div

@@ -4,10 +4,13 @@ import ChatbotInput from "../components/ChatbotInput";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import "../css/Homepage.css";
+import { useBotContext } from "../context/BotContext";
+import ClearChat from "../components/ClearChat";
 
 function Homepage() {
   const navigate = useNavigate();
   const backend_url = import.meta.env.VITE_BACKEND_URL;
+  const { showClear } = useBotContext();
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -33,6 +36,7 @@ function Homepage() {
       <div className="homepage">
         <Sidebar />
         <ChatbotInput />
+        {showClear && <ClearChat />}
       </div>
     </>
   );

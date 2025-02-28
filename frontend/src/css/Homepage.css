@@ -1,6 +1,7 @@
 .homepage {
     display: flex;
     height: 87%;
+    position: relative;
   }
 
 .chatPage-container {
