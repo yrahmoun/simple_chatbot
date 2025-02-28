@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useBotContext } from "../context/BotContext";
 import "../css/Sidebar.css";
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import Logout from "./Logout";
 
 function Sidebar() {
   const backend_url = import.meta.env.VITE_BACKEND_URL;
@@ -66,6 +67,9 @@ function Sidebar() {
           >
             Clear history
           </button>
+          <div className="show-logout">
+            <Logout />
+          </div>
         </div>
       )}
       <div

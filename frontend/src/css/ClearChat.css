@@ -1,8 +1,7 @@
 .clear-history {
     position: absolute;
-    width: fit-content;
+    width: 450px;
     max-width: 80%;
-    min-width: 250px;
     height: 50%;
     display: flex;
     flex-direction: column;
@@ -53,4 +52,27 @@
 
 .clear-option button:last-child:hover {
     background-color: hsl(0, 100%, 55%);
+}
+
+@media (max-width: 450px) {
+    .clear-history p {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 300px) {
+    .clear-history {
+        height: 40%;
+        padding: 15px;
+    }
+    .clear-history p {
+        font-size: 14px;
+    }
+    .clear-option {
+        width: 95%;
+        font-size: 13px;
+    }
+    .clear-option button {
+        width: 45%;
+    }
 }

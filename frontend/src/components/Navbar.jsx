@@ -10,7 +10,7 @@ function Navbar() {
         <img src="/bot.svg"></img>
         <h1>Simple Bot</h1>
       </div>
-      {pathname !== "/Login" && <Logout />}
+      <div className="navbar-logout">{pathname !== "/Login" && <Logout />}</div>
     </div>
   );
 }

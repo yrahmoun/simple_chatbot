@@ -30,7 +30,7 @@ function ClearChat() {
     <div className="clear-history">
       {error && <p className="error-message"></p>}
       <p>are you sure you want to clear the chat ?</p>
-      <dic className="clear-option">
+      <div className="clear-option">
         <button
           onClick={() => {
             setShowClear(false);
@@ -39,7 +39,7 @@ function ClearChat() {
           Close
         </button>
         <button onClick={clearChatHistory}>Clear</button>
-      </dic>
+      </div>
     </div>
   );
 }
