@@ -19,9 +19,24 @@ async function getResponse(messages, botModel) {
       const tool = result.tool_calls[0];
       const functionName = tool.function.name;
       const argument_object = JSON.parse(tool.function.arguments);
-      const arguments = Object.values(argument_object).join(", ");
       if (functions[functionName]) {
-        return functions[functionName](arguments);
+        const functionResponse = await functions[functionName](argument_object);
+        messages.push({
+          role: "tool",
+          tool_call_id: tool.id,
+          name: functionName,
+          content: functionResponse,
+        });
+        try {
+          const secondResponse = await groq.chat.completions.create({
+            model: botModel,
+            messages: messages,
+          });
+          return secondResponse.choices[0].message.content;
+        } catch (error) {
+          console.error(error);
+          return "failed to execute prompt. Please try again.";
+        }
       }
       return "failed to execute prompt. Please try again.";
     }

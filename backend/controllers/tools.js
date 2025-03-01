@@ -16,6 +16,13 @@ const tools = [
       },
     },
   },
+  {
+    type: "function",
+    function: {
+      name: "get_trending_movies",
+      description: "Get the current trending movies of the week.",
+    },
+  },
 ];
 
 module.exports = tools;

@@ -1,24 +1,36 @@
 const axios = require("axios");
+const { json } = require("express");
+
+async function get_trending_movies() {
+  const base_url = "https://api.themoviedb.org/3/trending/movie/week";
+  const tmdb_api_key = process.env.TMDB_API_KEY;
+
+  try {
+    const response = await axios.get(`${base_url}?api_key=${tmdb_api_key}`);
+    const results = response.data.results;
+    const movies_fetched = results.map(({ title, overview, vote_average }) => ({
+      title,
+      overview,
+      vote_average,
+    }));
+    return JSON.stringify(movies_fetched);
+  } catch (error) {
+    console.error(error);
+    return "failed to fetch movies";
+  }
+}
 
 async function get_weather(location) {
   try {
     const response = await axios.get(`https://wttr.in/${location}?format=j1`);
     const data = response.data.current_condition[0];
     const area = response.data.nearest_area[0];
-    const city = area.areaName[0].value;
-    const country = area.country[0].value;
-    const description = data.weatherDesc[0].value;
-    const temp_C = data.temp_C;
-    const temp_F = data.temp_F;
-    const observationTime = data.localObsDateTime;
-    const result = `The weaher in ${location} is ${description}, with a temperature of ${temp_C}°C (${temp_F}°F).
-    Location: ${city}, ${country}.
-    Observation time: ${observationTime}.`;
-    return result;
+    const result = { ...data, ...area };
+    return JSON.stringify(result);
   } catch (error) {
     console.error(error);
     return "failed to fetch the weather. Please try again.";
   }
 }
 
-module.exports = { get_weather };
+module.exports = { get_weather, get_trending_movies };
