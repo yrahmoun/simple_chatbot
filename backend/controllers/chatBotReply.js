@@ -1,4 +1,6 @@
 const Groq = require("groq-sdk");
+const tools = require("./tools");
+const functions = require("./toolFunctions");
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
@@ -9,8 +11,21 @@ async function getResponse(messages, botModel) {
     const response = await groq.chat.completions.create({
       messages: messages,
       model: botModel,
+      tools: tools,
+      tool_choice: "auto",
     });
-    return response.choices[0].message.content;
+    const result = response.choices[0].message;
+    if (result.tool_calls) {
+      const tool = result.tool_calls[0];
+      const functionName = tool.function.name;
+      const argument_object = JSON.parse(tool.function.arguments);
+      const arguments = Object.values(argument_object).join(", ");
+      if (functions[functionName]) {
+        return functions[functionName](arguments);
+      }
+      return "failed to execute prompt. Please try again.";
+    }
+    return result.content;
   } catch (error) {
     console.error("Error fetching response:", error);
     return { error: "failed toget a response" };

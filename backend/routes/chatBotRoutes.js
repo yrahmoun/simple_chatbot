@@ -64,7 +64,7 @@ router.get("/clear-chat", verifyToken, async (req, res) => {
   const userId = req.userId;
   try {
     await Messages.findOneAndUpdate({ userId }, { $set: { messages: [] } });
-    return res.status(200).json({message: "chat cleared successfully"});
+    return res.status(200).json({ message: "chat cleared successfully" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "failed to delete chat history" });

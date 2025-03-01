@@ -23,6 +23,7 @@
 .model-choice p,
 .model-choice h3 {
   width: 70%;
+  font-weight: 400;
 }
 
 .model-choice h3 {
@@ -115,7 +116,7 @@
     color: #fff;
     background-color: #3747f3;
     font-size: 18px;
-    font-weight: 300;
+    font-weight: 500;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
