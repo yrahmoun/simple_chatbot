@@ -84,3 +84,28 @@
     cursor: pointer;
     transition: 0.3s ease-in-out;
 }
+
+@media (max-width: 350px) {
+    .user-input {
+        padding: 5px;
+        font-size: 16px;
+        height: 20%;
+    }
+    .input-field {
+        height: 90%;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    .user-input button {
+        height: 90%;
+        padding: 10px;
+        text-align: center;
+        font-size: 16px;
+    }
+    .chat-box {
+        font-size: 15px;
+    }
+    .user-message, .bot-message {
+        max-width: 85%;
+    }
+}
