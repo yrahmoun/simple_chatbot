@@ -6,6 +6,32 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
+const handleToolCall = async (result, messages, botModel) => {
+  const tool = result.tool_calls[0];
+  const functionName = tool.function.name;
+  const argument_object = JSON.parse(tool.function.arguments);
+  if (functions[functionName]) {
+    const functionResponse = await functions[functionName](argument_object);
+    messages.push({
+      role: "tool",
+      tool_call_id: tool.id,
+      name: functionName,
+      content: functionResponse,
+    });
+    try {
+      const secondResponse = await groq.chat.completions.create({
+        model: botModel,
+        messages: messages,
+      });
+      return secondResponse.choices[0].message.content;
+    } catch (error) {
+      console.error(error);
+      return "failed to execute prompt. Please try again.";
+    }
+  }
+  return "failed to execute prompt. Please try again.";
+};
+
 async function getResponse(messages, botModel) {
   try {
     const response = await groq.chat.completions.create({
@@ -16,29 +42,8 @@ async function getResponse(messages, botModel) {
     });
     const result = response.choices[0].message;
     if (result.tool_calls) {
-      const tool = result.tool_calls[0];
-      const functionName = tool.function.name;
-      const argument_object = JSON.parse(tool.function.arguments);
-      if (functions[functionName]) {
-        const functionResponse = await functions[functionName](argument_object);
-        messages.push({
-          role: "tool",
-          tool_call_id: tool.id,
-          name: functionName,
-          content: functionResponse,
-        });
-        try {
-          const secondResponse = await groq.chat.completions.create({
-            model: botModel,
-            messages: messages,
-          });
-          return secondResponse.choices[0].message.content;
-        } catch (error) {
-          console.error(error);
-          return "failed to execute prompt. Please try again.";
-        }
-      }
-      return "failed to execute prompt. Please try again.";
+      const toolResponse = await handleToolCall(result, messages, botModel);
+      return toolResponse;
     }
     return result.content;
   } catch (error) {

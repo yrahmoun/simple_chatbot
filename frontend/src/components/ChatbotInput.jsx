@@ -6,6 +6,7 @@ import { useBotContext } from "../context/BotContext";
 
 function ChatbotInput() {
   const [prompt, setPrompt] = useState("");
+  const [responseLoading, setResponseLoading] = useState(false);
   const navigate = useNavigate();
   const backend_url = import.meta.env.VITE_BACKEND_URL;
   const chatBoxRef = useRef(null);
@@ -34,9 +35,11 @@ function ChatbotInput() {
   }, [messages]);
 
   const getResponse = async () => {
-    if (!prompt.trim()) {
+    if (!prompt.trim() || responseLoading) {
       return;
     }
+    setResponseLoading(true);
+    setPrompt("");
     let userMessage = {
       role: "user",
       content: prompt,
@@ -53,7 +56,6 @@ function ChatbotInput() {
       });
       const data = await response.json();
       if (handleUnauthorized(data, navigate)) return;
-      setPrompt("");
       let botMessage = {
         role: "assistant",
         content: data.reply,
@@ -61,6 +63,8 @@ function ChatbotInput() {
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       console.error(error);
+    } finally {
+      setResponseLoading(false);
     }
   };
 

@@ -22,10 +22,16 @@ async function get_trending_movies() {
 
 async function get_weather(location) {
   try {
-    const response = await axios.get(`https://wttr.in/${location}?format=j1`);
+    const encodedLocation = encodeURIComponent(location);
+    const response = await axios.get(
+      `https://wttr.in/${encodedLocation}?format=j1`
+    );
     const data = response.data.current_condition[0];
     const area = response.data.nearest_area[0];
-    const result = { ...data, ...area };
+    const result = {
+      current: data,
+      locatonInfo: area,
+    };
     return JSON.stringify(result);
   } catch (error) {
     console.error(error);
