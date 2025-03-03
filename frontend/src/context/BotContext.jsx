@@ -6,6 +6,7 @@ export const BotProvider = ({ children }) => {
   const [botModel, setBotModel] = useState("llama3-70b-8192");
   const [showClear, setShowClear] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [showSideBar, setShowSideBar] = useState(false);
 
   return (
     <botContext.Provider
@@ -16,6 +17,8 @@ export const BotProvider = ({ children }) => {
         setShowClear,
         messages,
         setMessages,
+        showSideBar,
+        setShowSideBar,
       }}
     >
       {children}

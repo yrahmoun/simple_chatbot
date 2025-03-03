@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/ChatbotInput.css";
 import { handleUnauthorized } from "../utilities/handleUnauthorized";
 import { useBotContext } from "../context/BotContext";
+import { ArrowBigUp } from "lucide-react";
 
 function ChatbotInput() {
   const [prompt, setPrompt] = useState("");
@@ -92,6 +93,9 @@ function ChatbotInput() {
             placeholder="Type your message here..."
           />
           <button onClick={getResponse}>send</button>
+          <div className="send-button" onClick={getResponse}>
+            <ArrowBigUp size={24} color="#fff" fill="#fff" />
+          </div>
         </div>
       </div>
     </div>

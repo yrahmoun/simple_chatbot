@@ -85,6 +85,16 @@
     transition: 0.3s ease-in-out;
 }
 
+.send-button {
+    background-color: #3747f3;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+}
+
 @media (max-width: 350px) {
     .user-input {
         padding: 5px;
@@ -97,15 +107,15 @@
         font-weight: 400;
     }
     .user-input button {
-        height: 90%;
-        padding: 10px;
-        text-align: center;
-        font-size: 16px;
+        display: none;
     }
     .chat-box {
         font-size: 15px;
     }
     .user-message, .bot-message {
         max-width: 85%;
+    }
+    .send-button {
+        display: flex;
     }
 }

@@ -8,10 +8,16 @@ import Logout from "./Logout";
 
 function Sidebar() {
   const backend_url = import.meta.env.VITE_BACKEND_URL;
-  const { botModel, setBotModel, showClear, setShowClear } = useBotContext();
+  const {
+    botModel,
+    setBotModel,
+    showClear,
+    setShowClear,
+    showSideBar,
+    setShowSideBar,
+  } = useBotContext();
   const [allModels, setAllModels] = useState([]);
   const [showModels, setShowModels] = useState(false);
-  const [showSideBar, setShowSideBar] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {

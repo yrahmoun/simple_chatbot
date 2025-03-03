@@ -1,44 +1,59 @@
 .navbar {
-    width: 100%;
-    height: 12%;
-    background-color: #3747f3;
-    color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  width: 100%;
+  height: 12%;
+  background-color: #3747f3;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
 }
 
 .title h1 {
-    font-size: 25px;
+  font-size: 25px;
 }
 
 .title img {
-    align-self: center;
+  align-self: center;
+  width: 37px;
+  height: 35px;
 }
 
 .logout {
-    margin-right: 15px;
-    font-size: 16px;
-    transition: font-size 0.3s ease;
+  margin-right: 15px;
+  font-size: 16px;
+  transition: font-size 0.3s ease;
 }
 
 .logout:hover {
-    cursor: pointer;
-    font-size: 18px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.menu-toggle {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
 }
 
 @media (max-width: 350px) {
-    .navbar-logout {
-        display: none;
-    }
-    .title {
-        width: 100%;
-    }
+  .navbar-logout {
+    display: none;
+  }
+  .title {
+    width: 100%;
+  }
+  .title h1 {
+    font-size: 22px;
+  }
+  .menu-toggle {
+    display: flex;
+  }
 }

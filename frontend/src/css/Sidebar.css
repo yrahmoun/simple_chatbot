@@ -106,24 +106,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute
+  position: absolute;
 }
 
-.clear-button, .show-logout {
-    margin-top: 20px;
-    width: 70%;
-    padding: 10px;
-    color: #fff;
-    background-color: #3747f3;
-    font-size: 18px;
-    font-weight: 500;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.clear-button,
+.show-logout {
+  margin-top: 20px;
+  width: 70%;
+  padding: 10px;
+  color: #fff;
+  background-color: #3747f3;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .clear-button:hover {
-    background-color: #5865f2;
+  background-color: #5865f2;
 }
 
 .show-logout {
@@ -140,6 +141,9 @@
 @media (max-width: 350px) {
   .show-logout {
     display: block;
+  }
+  .menu-button {
+    display: none;
   }
 }
 
