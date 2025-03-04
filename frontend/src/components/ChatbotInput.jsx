@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/ChatbotInput.css";
+import "../css/ChatBotInput.css";
 import { handleUnauthorized } from "../utilities/handleUnauthorized";
 import { useBotContext } from "../context/BotContext";
 import { ArrowBigUp } from "lucide-react";
