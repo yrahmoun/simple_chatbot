@@ -6,10 +6,13 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
-const handleToolCall = async (result, messages, botModel) => {
+const handleToolCall = async (result, messages, botModel, ip) => {
   const tool = result.tool_calls[0];
   const functionName = tool.function.name;
-  const argument_object = JSON.parse(tool.function.arguments);
+  let argument_object = JSON.parse(tool.function.arguments);
+  if (functionName === "get_user_info") {
+    argument_object = ip;
+  }
   if (functions[functionName]) {
     const functionResponse = await functions[functionName](argument_object);
     messages.push({
@@ -32,7 +35,7 @@ const handleToolCall = async (result, messages, botModel) => {
   return "failed to execute prompt. Please try again.";
 };
 
-async function getResponse(messages, botModel) {
+async function getResponse(messages, botModel, ip) {
   try {
     const response = await groq.chat.completions.create({
       messages: messages,
@@ -41,8 +44,8 @@ async function getResponse(messages, botModel) {
       tool_choice: "auto",
     });
     const result = response.choices[0].message;
-    if (result.tool_calls) {
-      const toolResponse = await handleToolCall(result, messages, botModel);
+    if (result?.tool_calls) {
+      const toolResponse = await handleToolCall(result, messages, botModel, ip);
       return toolResponse;
     }
     return result.content;

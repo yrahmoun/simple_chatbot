@@ -3,6 +3,7 @@ const router = express.Router();
 const { getResponse, getModels } = require("../controllers/chatBotReply");
 const verifyToken = require("../middleware/authMiddleware");
 const Messages = require("../models/messagesModel");
+const getIp = require("../controllers/getIp");
 
 router.get("/fetch-models", verifyToken, async (req, res) => {
   const models = await getModels();
@@ -29,6 +30,7 @@ router.get("/fetch-messages", verifyToken, async (req, res) => {
 router.post("/chatbot-reply", verifyToken, async (req, res) => {
   const prompt = req.body.prompt;
   const botModel = req.body.botModel;
+  const ip = await getIp(req);
   if (!prompt) {
     return res.status(400).json({ error: "please send a prompt." });
   }
@@ -38,7 +40,14 @@ router.post("/chatbot-reply", verifyToken, async (req, res) => {
   if (!chat) {
     const newChat = new Messages({
       userId,
-      messages: [{ role: "user", content: prompt }],
+      messages: [
+        {
+          role: "system",
+          content:
+            "Only use tools when the user sends JSON data or asks specific questions about them. Otherwise you're just an AI chatbot here to chat and answer questions.",
+        },
+        { role: "user", content: prompt },
+      ],
     });
     savedChat = await newChat.save();
   } else {
@@ -49,7 +58,7 @@ router.post("/chatbot-reply", verifyToken, async (req, res) => {
     role,
     content,
   }));
-  const reply = await getResponse(filteredMessages, botModel);
+  const reply = await getResponse(filteredMessages, botModel, ip);
   if (reply.error) {
     savedChat.messages.pop();
     await savedChat.save();
@@ -63,7 +72,7 @@ router.post("/chatbot-reply", verifyToken, async (req, res) => {
 router.get("/clear-chat", verifyToken, async (req, res) => {
   const userId = req.userId;
   try {
-    await Messages.findOneAndUpdate({ userId }, { $set: { messages: [] } });
+    await Messages.findOneAndDelete({ userId });
     return res.status(200).json({ message: "chat cleared successfully" });
   } catch (error) {
     console.error(error);

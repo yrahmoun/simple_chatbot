@@ -3,7 +3,7 @@ const tools = [
     type: "function",
     function: {
       name: "get_weather",
-      description: "Get the current weather for a location",
+      description: "Get the weather of a location given by the user",
       parameters: {
         type: "object",
         properties: {
@@ -21,6 +21,14 @@ const tools = [
     function: {
       name: "get_trending_movies",
       description: "Get the current trending movies of the week.",
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "get_user_info",
+      description:
+        "Get info about the user, including country,timezone and current time",
     },
   },
 ];

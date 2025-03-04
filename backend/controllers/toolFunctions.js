@@ -1,5 +1,4 @@
 const axios = require("axios");
-const { json } = require("express");
 
 async function get_trending_movies() {
   const base_url = "https://api.themoviedb.org/3/trending/movie/week";
@@ -39,4 +38,20 @@ async function get_weather(location) {
   }
 }
 
-module.exports = { get_weather, get_trending_movies };
+async function get_user_info(ip) {
+  const ip_geo_api = process.env.IP_GEO_API;
+  const base_url = "https://api.ipgeolocation.io/ipgeo";
+
+  if (!ip) {
+    return "Failed to fetch data. please try again.";
+  }
+  try {
+    const response = await axios.get(`${base_url}?apiKey=${ip_geo_api}&ip=${ip}`);
+    return JSON.stringify(response.data);
+  } catch (error) {
+    console.error(error);
+    return "Failed to fetch data. please try again.";
+  }
+}
+
+module.exports = { get_weather, get_trending_movies, get_user_info };
