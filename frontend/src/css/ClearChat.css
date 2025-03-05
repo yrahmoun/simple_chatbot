@@ -60,13 +60,13 @@
     }
 }
 
-@media (max-width: 300px) {
+@media (max-width: 375px) {
     .clear-history {
         height: 40%;
         padding: 15px;
     }
     .clear-history p {
-        font-size: 14px;
+        font-size: 18px;
     }
     .clear-option {
         width: 95%;
@@ -74,5 +74,11 @@
     }
     .clear-option button {
         width: 45%;
+    }
+}
+
+@media (max-width: 300px) {
+    .clear-history p {
+        font-size: 15px;
     }
 }
