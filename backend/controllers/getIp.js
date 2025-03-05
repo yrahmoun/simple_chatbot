@@ -12,7 +12,7 @@ const getLocalIp = async () => {
 };
 
 const getIp = async (req) => {
-  let ip = req.socket.remoteAddress;
+  let ip = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress;
   if (ip === "::1") {
     ip = await getLocalIp();
   }
