@@ -138,7 +138,7 @@
   font-weight: 500;
 }
 
-@media (max-width: 350px) {
+@media (max-width: 375px) {
   .show-logout {
     display: block;
   }
