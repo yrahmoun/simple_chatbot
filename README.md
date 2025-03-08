@@ -217,3 +217,80 @@ Connection: close
 }
 ```
 
+### **3️⃣ GET /logout**
+Clears the JWT token inside the cookie, logging the user out.
+
+✅ **Success Response (200 OK)**
+
+📌 **Response Headers:**
+```
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Access-Control-Allow-Origin: http://localhost:3000
+Vary: Origin
+Access-Control-Allow-Credentials: true
+Set-Cookie: accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax
+Content-Type: application/json; charset=utf-8
+Content-Length: 38
+ETag: W/"26-QmMKQ7Ehtu+p4nfPmYpM+SsKPqc"
+Date: Sat, 08 Mar 2025 15:37:21 GMT
+Connection: close
+```
+
+📌 **Response Body:**
+```json
+{
+  "message": "Logged out successfully."
+}
+```
+
+### **4️⃣ GET /verify**
+Authenticates the user by verifying the JWT token stored in the cookies and grants access to the website for valid users.
+
+#### Case: No Token Provided
+
+❌ **Error Response (401 Unauthorized)**
+
+📌 **Response Body:**
+```json
+{
+  "error": "Unauthorized access."
+}
+```
+
+#### Case: Wrong Token Provided
+
+❌ **Error Response (401 Unauthorized)**
+
+📌 **Request Headers:**
+```
+Cookie: accessToken=wrong_token
+```
+
+📌 **Response Body:**
+```json
+{
+  "error": "Unauthorized access."
+}
+```
+
+#### Case: Correct Token Provided
+
+✅ **Success Response (200 OK)**
+
+📌 **Request Headers:**
+```
+Cookie: accessToken=your_jwt_token
+```
+
+📌 **Response Body:**
+```json
+{
+  "message": "User verified",
+}
+```
+
+#### **Key Points:**
+- **Authentication:** This endpoint is used to check the validity of the user's JWT token from the cookie.
+- **Cookies:** The ```accessToken``` is stored as an HTTP-only cookie during login and registration.
+- **Redirects:** The frontend handles the redirection to the login page if the user is not authenticated.

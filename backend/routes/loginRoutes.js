@@ -108,6 +108,9 @@ router.get("/verify", async (req, res) => {
       });
       return res.status(401).json({ error: "Unauthorized access." });
     }
+    return res.status(200).json({
+      message: "User verified",
+    });
   } catch (error) {
     console.error(error);
     return res.status(401).json({ error: "Unauthorized access." });
