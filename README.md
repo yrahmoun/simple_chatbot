@@ -294,3 +294,198 @@ Cookie: accessToken=your_jwt_token
 - **Authentication:** This endpoint is used to check the validity of the user's JWT token from the cookie.
 - **Cookies:** The ```accessToken``` is stored as an HTTP-only cookie during login and registration.
 - **Redirects:** The frontend handles the redirection to the login page if the user is not authenticated.
+
+
+### **5️⃣ GET /fetch-models**
+Fetch available Large Language Models (LLMs) that can be used for AI interactions.
+
+#### Case: No Token Provided
+
+❌ **Error Response (401 Unauthorized)**
+
+📌 **Response Body:**
+```json
+{
+  "error": "Unauthorized access.",
+  "unauthorized": true
+}
+```
+
+#### Case: Wrong Token Provided
+
+❌ **Error Response (401 Unauthorized)**
+
+📌 **Request Headers:**
+```
+Cookie: accessToken=wrong_token
+```
+
+📌 **Response Body:**
+```json
+{
+  "error": "Invalid or expired token.",
+  "unauthorized": true
+}
+```
+
+#### Case: Correct Token Provided
+
+✅ **Success Response (200 OK)**
+
+📌 **Request Headers:**
+```
+Cookie: accessToken=your_jwt_token
+```
+
+📌 **Response Body:**
+```json
+[
+  {
+    "id": "llama-guard-3-8b",
+    "owned_by": "Meta"
+  },
+  {
+    "id": "gemma2-9b-it",
+    "owned_by": "Google"
+  },
+  {
+    "id": "llama3-70b-8192",
+    "owned_by": "Meta"
+  },
+  {
+    "id": "whisper-large-v3-turbo",
+    "owned_by": "OpenAI"
+  },
+  {
+    "id": "deepseek-r1-distill-llama-70b",
+    "owned_by": "DeepSeek / Meta"
+  },
+  {
+    "id": "llama-3.1-8b-instant",
+    "owned_by": "Meta"
+  },
+  {
+    "id": "llama-3.2-3b-preview",
+    "owned_by": "Meta"
+  },
+  {
+    "id": "llama-3.2-90b-vision-preview",
+    "owned_by": "Meta"
+  },
+  {
+    "id": "deepseek-r1-distill-qwen-32b",
+    "owned_by": "DeepSeek / Alibaba Cloud"
+  },
+  {
+    "id": "llama-3.3-70b-specdec",
+    "owned_by": "Meta"
+  },
+  {
+    "id": "distil-whisper-large-v3-en",
+    "owned_by": "Hugging Face"
+  },
+  {
+    "id": "llama-3.2-11b-vision-preview",
+    "owned_by": "Meta"
+  },
+  {
+    "id": "whisper-large-v3",
+    "owned_by": "OpenAI"
+  },
+  {
+    "id": "llama-3.3-70b-versatile",
+    "owned_by": "Meta"
+  },
+  {
+    "id": "llama3-8b-8192",
+    "owned_by": "Meta"
+  },
+  {
+    "id": "qwen-2.5-coder-32b",
+    "owned_by": "Alibaba Cloud"
+  },
+  {
+    "id": "qwen-qwq-32b",
+    "owned_by": "Alibaba Cloud"
+  },
+  {
+    "id": "qwen-2.5-32b",
+    "owned_by": "Alibaba Cloud"
+  },
+  {
+    "id": "mistral-saba-24b",
+    "owned_by": "Mistral AI"
+  },
+  {
+    "id": "llama-3.2-1b-preview",
+    "owned_by": "Meta"
+  },
+  {
+    "id": "mixtral-8x7b-32768",
+    "owned_by": "Mistral AI"
+  }
+]
+```
+
+
+### **6️⃣ GET /fetch-messages**
+Fetch the messages stored in the database.
+
+#### Case: No Token Provided
+
+❌ **Error Response (401 Unauthorized)**
+
+📌 **Response Body:**
+```json
+{
+  "error": "Unauthorized access.",
+  "unauthorized": true
+}
+```
+
+#### Case: Wrong Token Provided
+
+❌ **Error Response (401 Unauthorized)**
+
+📌 **Request Headers:**
+```
+Cookie: accessToken=wrong_token
+```
+
+📌 **Response Body:**
+```json
+{
+  "error": "Invalid or expired token.",
+  "unauthorized": true
+}
+```
+
+#### Case: Correct Token Provided
+
+✅ **Success Response (200 OK)**
+
+📌 **Request Headers:**
+```
+Cookie: accessToken=your_jwt_token
+```
+
+📌 **Response Body:**
+```json
+[
+  {
+    "role": "system",
+    "content": "Only use tools when the user sends JSON data or asks specific questions about them. Otherwise you're just an AI chatbot here to chat and answer questions.",
+    "_id": "67cc82e52e12b83b7e38f622"
+  },
+  {
+    "role": "user",
+    "content": "hey there!",
+    "_id": "67cc82e52e12b83b7e38f623"
+  },
+  {
+    "role": "assistant",
+    "content": "Hi! It's nice to meet you. How's your day going so far?",
+    "_id": "67cc82e52e12b83b7e38f625"
+  }
+]
+```

@@ -21,7 +21,10 @@ function ChatbotInput() {
       });
       const data = await response.json();
       if (handleUnauthorized(data, navigate)) return;
-      setMessages(data);
+      const fetched_messages = data.filter(
+        (message) => message.role !== "system"
+      );
+      setMessages(fetched_messages);
     };
     fetchMessages();
   }, []);
