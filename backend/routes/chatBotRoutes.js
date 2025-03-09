@@ -32,7 +32,10 @@ router.post("/chatbot-reply", verifyToken, async (req, res) => {
   const botModel = req.body.botModel;
   const ip = await getIp(req);
   if (!prompt) {
-    return res.status(400).json({ error: "please send a prompt." });
+    return res.status(400).json({ error: "Please send a prompt." });
+  }
+  if (!botModel) {
+    return res.status(400).json({ error: "Please choose a model." });
   }
   const userId = req.userId;
   const chat = await Messages.findOne({ userId });
@@ -73,10 +76,10 @@ router.get("/clear-chat", verifyToken, async (req, res) => {
   const userId = req.userId;
   try {
     await Messages.findOneAndDelete({ userId });
-    return res.status(200).json({ message: "chat cleared successfully" });
+    return res.status(200).json({ message: "Chat cleared successfully" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "failed to delete chat history" });
+    return res.status(500).json({ error: "Failed to delete chat history" });
   }
 });
 

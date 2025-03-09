@@ -489,3 +489,114 @@ Cookie: accessToken=your_jwt_token
   }
 ]
 ```
+
+
+### **7️⃣ POST /chatbot-reply**
+Get a reply for the chatbot.
+
+#### Case: No Token Provided
+
+❌ **Error Response (401 Unauthorized)**
+
+📌 **Response Body:**
+```json
+{
+  "error": "Unauthorized access.",
+  "unauthorized": true
+}
+```
+
+#### Case: No Prompt Provided
+
+❌ **Error Response (400 Bad Request)**
+
+📌 **Request Headers:**
+```
+Cookie: accessToken=your_jwt_token
+```
+
+📌 **Response Body:**
+```json
+{
+  "error": "Please send a prompt."
+}
+```
+
+#### Case: No Model Provided
+
+❌ **Error Response (400 Bad Request)**
+
+📌 **Request Headers:**
+```
+Cookie: accessToken=your_jwt_token
+```
+
+📌 **Request Body:**
+```json
+{
+    "prompt": "hey there!"
+}
+```
+
+📌 **Response Body:**
+```json
+{
+  "error": "Please choose a model."
+}
+```
+
+#### Case: Prompt and Model Provided
+
+✅ **Success Response (200 OK)**
+
+📌 **Request Headers:**
+```
+Cookie: accessToken=your_jwt_token
+```
+
+📌 **Request Body:**
+```json
+{
+    "prompt": "hey there!",
+    "botModel": "llama3-70b-8192"
+}
+```
+
+📌 **Response Body:**
+```json
+{
+  "reply": "Hey! How's it going?"
+}
+```
+
+
+### **8️⃣ GET /clear-chat**
+Clear chat history.
+
+#### Case: No Token Provided
+
+❌ **Error Response (401 Unauthorized)**
+
+📌 **Response Body:**
+```json
+{
+  "error": "Unauthorized access.",
+  "unauthorized": true
+}
+```
+
+#### Case: Token Provided
+
+✅ **Success Response (200 OK)**
+
+📌 **Request Headers:**
+```
+Cookie: accessToken=your_jwt_token
+```
+
+📌 **Response Body:**
+```json
+{
+  "message": "chat cleared successfully"
+}
+```

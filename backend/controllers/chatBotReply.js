@@ -51,7 +51,7 @@ async function getResponse(messages, botModel, ip) {
     return result.content;
   } catch (error) {
     console.error("Error fetching response:", error);
-    return { error: "failed toget a response" };
+    return { error: "failed to get a response" };
   }
 }
 
